@@ -1,23 +1,26 @@
-import react, { useState, useEffect } from "react";
+import react, { useEffect, useState } from "react";
 import Head from "next/head";
+import Facilities from "../Components/Facilities";
+import Hospital from "../Components/Hospital";
+import Volunteers from "../Components/Volunteers";
 import axios from "axios";
 export default function Home() {
   const getData = async () => {
     const res = await axios.get("https://covid-19-delhi.herokuapp.com/cities");
     setLocationAll(res.data);
     const res2 = await axios.get("https://covid-19-delhi.herokuapp.com/facilities/");
-    setServicesAll(res2.data);
+    setFacilitiesAll(res2.data);
   };
   const locationFilter = (e) => {
     e.preventDefault()
-    const match = locationAll.filter(location => location.name.toLowerCase().indexOf(searchLocation.toLowerCase()) === 0)
+    const match = locationAll.filter(location => location.name.toLowerCase().indexOf(searchLocation.toLowerCase()) !== -1)
     setLocationSearch(match)
   }
   const serviceFilter = (e) => {
     e.preventDefault()
-    const match = servicesAll.filter(service => service.name.toLowerCase().indexOf(searchServices.toLowerCase()) === 0)
-    setServicesSearch(match)
-    console.log(match, servicesAll);
+    const match = facilitiesAll.filter(service => service.name.toLowerCase().indexOf(searchFacilities.toLowerCase()) !== -1)
+    setFacilitiesSearch(match)
+    console.log(match, facilitiesAll);
   }
 
   useEffect(() => {
@@ -27,9 +30,12 @@ export default function Home() {
   const [searchLocation, setSearchLocation] = useState("");
   const [locationAll, setLocationAll] = useState([]);
   const [locationSearch, setLocationSearch] = useState([]);
-  const [searchServices, setSearchServices] = useState("");
-  const [servicesAll, setServicesAll] = useState([]);
-  const [servicesSearch, setServicesSearch] = useState([]);
+  const [searchFacilities, setSearchFacilities] = useState("");
+  const [facilitiesAll, setFacilitiesAll] = useState([]);
+  const [facilitiesSearch, setFacilitiesSearch] = useState([]);
+
+  const [locationFinal, setLocationFinal] = useState()
+  const [facilitiesFinal, setFacilitiesFinal] = useState()
 
   return (
     <div className="w-full flex jutisfy-center flex-col h-screen overflow-x-hidden">
@@ -55,15 +61,15 @@ export default function Home() {
           />
         </section>
         <section
-          id="services"
+          id="facilities"
           className="w-full mt-16 block rounded-xl shadow-lg px-12 bg-gray-100 py-4"
         >
           <input
             className="w-full bg-gray-100 focus:outline-none text-center"
             type="text"
-            value={searchServices}
-            placeholder="Filter by Services"
-            onChange={(e) => {setSearchServices(e.target.value); serviceFilter(e);}}
+            value={searchFacilities}
+            placeholder="Filter by Facilities"
+            onChange={(e) => {setSearchFacilities(e.target.value); serviceFilter(e);}}
           />
         </section>
       </section>
@@ -100,7 +106,7 @@ export default function Home() {
                 <tbody>{
                   locationSearch.slice(0, 5).map(location => (
                     <tr>
-                    <a onClick={() => {setSearchLocation(location.name); setLocationSearch([])}}>
+                    <a onClick={() => {setSearchLocation(location.name); setLocationSearch([]); setLocationFinal(location)}}>
                       <td className="px-5 text-csenter cursor-pointer py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">{location.name}</p>
                       </td>
@@ -135,7 +141,7 @@ export default function Home() {
       </section>
         ) || <div></div>}
       {
-        searchServices.length > 0 && (
+        searchFacilities.length > 0 && (
       <section className="container mx-auto px-4 sm:px-8 max-w-3xl">
         <div>
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -164,9 +170,9 @@ export default function Home() {
                   </tr>
                 </thead>
                 <tbody>{
-                  servicesSearch.slice(0, 5).map(service => (
+                  facilitiesSearch.slice(0, 5).map(service => (
                     <tr>
-                    <a onClick={() => {setSearchServices(service.name); setServicesSearch([]); }}>
+                    <a onClick={() => {setSearchFacilities(service.name); setFacilitiesSearch([]); setFacilitiesFinal(service)}}>
                       <td className="px-5 text-csenter cursor-pointer py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">{service.name}</p>
                       </td>
@@ -203,7 +209,7 @@ export default function Home() {
         </section>
         <div className="w-full flex justify-center my-8">
           <div>
-          <button onClick={() => { setSearchLocation(""); setSearchServices("") }} className="bg-gray-200 w-40 mx-2 hover:bg-gray-300 transition duration-200 text-base lg:text-lg text-black font-semibold rounded-lg px-8 py-4">
+          <button onClick={() => { setSearchLocation(""); setSearchFacilities("") }} className="bg-gray-200 w-40 mx-2 hover:bg-gray-300 transition duration-200 text-base lg:text-lg text-black font-semibold rounded-lg px-8 py-4">
                           Clear
           </button>
           <button className="bg-red-600 w-40 mx-2 hover:bg-red-700 transition duration-200 text-base lg:text-lg text-white font-semibold rounded-lg px-8 py-4">
@@ -211,6 +217,14 @@ export default function Home() {
           </button>
           </div>
         </div>
+
+      <div className="grid  grid-cols-3 mt-5 gap-5 text-center">
+        <Facilities />
+
+        <Hospital />
+
+        <Volunteers />
+      </div>
     </div>
   );
 }
