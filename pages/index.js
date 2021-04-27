@@ -46,6 +46,9 @@ export default function Home() {
   const [facilitiesAll, setFacilitiesAll] = useState([]);
   const [facilitiesSearch, setFacilitiesSearch] = useState([]);
 
+  const [facilityDropdown, setFacilityDropdown] = useState(false);
+  const [locationDropdown, setLocationDropdown] = useState(false);
+
   const [locationFinal, setLocationFinal] = useState();
   const [facilitiesFinal, setFacilitiesFinal] = useState();
 
@@ -56,7 +59,7 @@ export default function Home() {
       <Head>
         <title>Covid-19 Resources</title>
       </Head>
-      <section className="bg-black flex w-full justify-center fixed top-0 left-0 items-center">
+      <section className="bg-black z-50 flex w-full justify-center fixed top-0 left-0 items-center">
         <h1 className="text-white text-2xl font-body py-4">
           Covid-19 Resources
         </h1>
@@ -68,26 +71,30 @@ export default function Home() {
         setSearchFacilities={setSearchFacilities}
         locationFilter={locationFilter}
         serviceFilter={serviceFilter}
+        setFacilityDropdown={setFacilityDropdown}
+        setLocationDropdown={setLocationDropdown}
       />
-      <section className="grid grid-cols-2 gap-5">
-        {(searchLocation.length > 0 && (
+      <section className="grid grid-cols-1 lg:grid-cols-2 lg:gap-5">
+        {(searchLocation.length || locationDropdown > 0 && (
           <LocationSearchTable
             locationSearch={locationSearch}
             setSearchLocation={setSearchLocation}
             setLocationFinal={setLocationFinal}
             setLocationSearch={setLocationSearch}
+            setLocationDropdown={setLocationDropdown}
           />
         )) || <div></div>}
-        {searchFacilities.length > 0 && (
+        {searchFacilities.length || facilityDropdown> 0 && (
           <FaciltySearchTable
             facilitiesSearch={facilitiesSearch}
             setSearchFacilities={setSearchFacilities}
             setFacilitiesFinal={setFacilitiesFinal}
             setFacilitiesSearch={setFacilitiesSearch}
+            setFacilityDropdown={setFacilityDropdown}
           />
         )}
       </section>
-      <div className="w-full flex justify-center my-8">
+      <div className="w-full flex justify-center my-4 lg:my-8">
         <div>
           <button
             onClick={() => {
@@ -95,19 +102,21 @@ export default function Home() {
               setSearchFacilities("");
               setFacilitiesFinal();
               setLocationFinal();
+              setLocationDropdown(false)
+              setFacilityDropdown(false)
             }}
-            className="bg-gray-200 w-40 mx-2 hover:bg-gray-300 transition duration-200 text-base lg:text-lg text-black font-semibold rounded-lg px-8 py-4"
+            className="bg-gray-200 w-40 mx-2 hover:bg-gray-300 transition duration-200 text-base lg:text-lg text-black font-semibold rounded-lg px-4 lg:px-8 py-2 lg:py-4"
           >
             Clear
           </button>
-          <button className="bg-red-600 w-40 mx-2 hover:bg-red-700 transition duration-200 text-base lg:text-lg text-white font-semibold rounded-lg px-8 py-4">
+          <button className="bg-red-600 w-40 mx-2 hover:bg-red-700 transition duration-200 text-base lg:text-lg text-white font-semibold rounded-lg px-4 lg:px-8 py-2 lg:py-4">
             Search
           </button>
         </div>
       </div>
 
       <section className="text-gray-600 body-font">
-        <div className="container px-5 pt-24 mx-auto flex flex-wrap flex-col">
+        <div className="container px-5 pt-4 lg:pt-24 mx-auto flex flex-wrap flex-col">
           <div className="flex mx-auto flex-wrap mb-20">
             <a onClick={() => setScreen("hospitals")} className={`sm:px-6 py-3 cursor-pointer w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center tracking-wider leading-none ${
                 screen === "hospitals"

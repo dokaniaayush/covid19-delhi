@@ -1,8 +1,8 @@
 import React from "react";
 
-const LocationSearchTable = ({ locationSearch, setSearchLocation, setLocationSearch, setLocationFinal}) => {
+const LocationSearchTable = ({ locationSearch, setSearchLocation, setLocationSearch, setLocationFinal, setLocationDropdown}) => {
   return (
-    <section className="container mx-auto px-4 sm:px-8 max-w-3xl">
+    <section className="container mx-auto lg:px-4 sm:px-8 max-w-3xl">
       <div>
         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
           <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -37,6 +37,7 @@ const LocationSearchTable = ({ locationSearch, setSearchLocation, setLocationSea
                         setSearchLocation(location.name);
                         setLocationSearch([]);
                         setLocationFinal(location);
+                        setLocationDropdown(false)
                       }}
                     >
                       <td className="px-5 text-csenter cursor-pointer py-5 border-b border-gray-200 bg-white text-sm">
