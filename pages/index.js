@@ -75,8 +75,9 @@ export default function Home() {
         setLocationDropdown={setLocationDropdown}
       />
       <section className="grid grid-cols-1 lg:grid-cols-2 lg:gap-5">
-        {(searchLocation.length && (
+        {(locationDropdown && (
           <LocationSearchTable
+            locationAll={locationAll}
             locationSearch={locationSearch}
             setSearchLocation={setSearchLocation}
             setLocationFinal={setLocationFinal}
@@ -84,8 +85,9 @@ export default function Home() {
             setLocationDropdown={setLocationDropdown}
           />
         )) || <div></div>}
-        {searchFacilities.length && (
+        {facilityDropdown && (
           <FaciltySearchTable
+            facilitiesAll={facilitiesAll}
             facilitiesSearch={facilitiesSearch}
             setSearchFacilities={setSearchFacilities}
             setFacilitiesFinal={setFacilitiesFinal}
@@ -102,8 +104,8 @@ export default function Home() {
               setSearchFacilities("");
               setFacilitiesFinal();
               setLocationFinal();
-              setLocationDropdown(false)
-              setFacilityDropdown(false)
+              setLocationDropdown(false);
+              setFacilityDropdown(false);
             }}
             className="bg-gray-200 w-40 mx-2 hover:bg-gray-300 transition duration-200 text-base lg:text-lg text-black font-semibold rounded-lg px-4 lg:px-8 py-2 lg:py-4"
           >
@@ -118,11 +120,14 @@ export default function Home() {
       <section className="text-gray-600 body-font">
         <div className="container px-5 pt-4 lg:pt-24 mx-auto flex flex-wrap flex-col">
           <div className="flex mx-auto flex-wrap mb-20">
-            <a onClick={() => setScreen("hospitals")} className={`sm:px-6 py-3 cursor-pointer w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center tracking-wider leading-none ${
+            <a
+              onClick={() => setScreen("hospitals")}
+              className={`sm:px-6 py-3 cursor-pointer w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center tracking-wider leading-none ${
                 screen === "hospitals"
                   ? "bg-gray-100 border-indigo-500 text-indigo-500 rounded-t text-gray-900"
                   : "border-gray-200 hover:text-gray-900"
-              }`}>
+              }`}
+            >
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -136,11 +141,14 @@ export default function Home() {
               </svg>
               Hospitals
             </a>
-            <a onClick={() => setScreen("services")} className={`sm:px-6 py-3 cursor-pointer w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center tracking-wider leading-none ${
+            <a
+              onClick={() => setScreen("services")}
+              className={`sm:px-6 py-3 cursor-pointer w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center tracking-wider leading-none ${
                 screen === "services"
                   ? "bg-gray-100 border-indigo-500 text-indigo-500 rounded-t text-gray-900"
                   : "border-gray-200 hover:text-gray-900"
-              }`}>
+              }`}
+            >
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -154,11 +162,14 @@ export default function Home() {
               </svg>
               Services
             </a>
-            <a onClick={() => setScreen("volunteers")} className={`sm:px-6 py-3 cursor-pointer w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center tracking-wider leading-none ${
+            <a
+              onClick={() => setScreen("volunteers")}
+              className={`sm:px-6 py-3 cursor-pointer w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center tracking-wider leading-none ${
                 screen === "volunteers"
                   ? "bg-gray-100 border-indigo-500 text-indigo-500 rounded-t text-gray-900"
                   : "border-gray-200 hover:text-gray-900"
-              }`}>
+              }`}
+            >
               <svg
                 fill="none"
                 stroke="currentColor"
@@ -177,9 +188,9 @@ export default function Home() {
         </div>
       </section>
       <section className="w-full flex justify-center px-4 lg:px-16 py-4">
-        { screen === "hospitals" && <Hospital /> }
-        { screen === "services" && <Services /> }
-        { screen === "volunteers" && <Volunteers /> }
+        {screen === "hospitals" && <Hospital />}
+        {screen === "services" && <Services />}
+        {screen === "volunteers" && <Volunteers />}
       </section>
     </div>
   );

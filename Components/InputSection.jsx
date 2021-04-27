@@ -1,6 +1,9 @@
 import React from 'react'
 
 const InputSection = ({ searchLocation, searchFacilities, setSearchLocation, setSearchFacilities, locationFilter, serviceFilter, setFacilityDropdown, setLocationDropdown }) => {
+ 
+    
+  
     return (
         <section className="grid grid-cols-1 lg:grid-cols-2 mt-5 gap-5">
         <section
@@ -11,7 +14,8 @@ const InputSection = ({ searchLocation, searchFacilities, setSearchLocation, set
             className="w-full bg-gray-100 focus:outline-none text-center"
             type="text"
             value={searchLocation}
-            onClick={() => setLocationDropdown(true)}
+            onFocus={()=>[setLocationDropdown(true)]}
+            // onBlur={()=>setLocationDropdown(false)}
             placeholder="Filter by location"
             onChange={(e) => {setSearchLocation(e.target.value); locationFilter(e);}}
           />
@@ -24,7 +28,8 @@ const InputSection = ({ searchLocation, searchFacilities, setSearchLocation, set
             className="w-full bg-gray-100 focus:outline-none text-center"
             type="text"
             value={searchFacilities}
-            onClick={() => setFacilityDropdown(true)}
+            onFocus={() => setFacilityDropdown(true)}
+            // onBlur={()=>setFacilityDropdown(false)}
             placeholder="Filter by Facilities"
             onChange={(e) => {setSearchFacilities(e.target.value); serviceFilter(e);}}
           />
