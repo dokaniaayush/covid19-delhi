@@ -75,7 +75,7 @@ export default function Home() {
         setLocationDropdown={setLocationDropdown}
       />
       <section className="grid grid-cols-1 lg:grid-cols-2 lg:gap-5">
-        {(searchLocation.length || locationDropdown > 0 && (
+        {(searchLocation.length && (
           <LocationSearchTable
             locationSearch={locationSearch}
             setSearchLocation={setSearchLocation}
@@ -84,7 +84,7 @@ export default function Home() {
             setLocationDropdown={setLocationDropdown}
           />
         )) || <div></div>}
-        {searchFacilities.length || facilityDropdown> 0 && (
+        {searchFacilities.length && (
           <FaciltySearchTable
             facilitiesSearch={facilitiesSearch}
             setSearchFacilities={setSearchFacilities}
