@@ -1,6 +1,6 @@
 import React from "react";
 
-const LocationSearchTable = ({ locationSearch, setSearchLocation, setLocationSearch, setLocationFinal, setLocationDropdown}) => {
+const LocationSearchTable = ({ locationAll,locationSearch, setSearchLocation, setLocationSearch, setLocationFinal, setLocationDropdown}) => {
   return (
     <section className="container mx-auto max-h-7xl lg:px-4 sm:px-8 max-w-3xl">
       <div>
@@ -30,7 +30,7 @@ const LocationSearchTable = ({ locationSearch, setSearchLocation, setLocationSea
                 </tr>
               </thead>
               <tbody>
-                {locationSearch.slice(0, 5).map((location) => (
+                {locationAll.slice(0, 5).map((location) => (
                   <tr>
                     <a
                       onClick={() => {

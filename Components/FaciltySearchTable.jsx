@@ -1,6 +1,6 @@
 import React from "react";
 
-const FaciltySearchTable = ({facilitiesSearch, setFacilitiesFinal, setSearchFacilities, setFacilitiesSearch, setFacilityDropdown}) => {
+const FaciltySearchTable = ({facilitiesAll,facilitiesSearch, setFacilitiesFinal, setSearchFacilities, setFacilitiesSearch, setFacilityDropdown}) => {
   return (
     <section className="container mx-auto lg:px-4 sm:px-8 max-w-3xl">
       <div>
@@ -30,7 +30,7 @@ const FaciltySearchTable = ({facilitiesSearch, setFacilitiesFinal, setSearchFaci
                 </tr>
               </thead>
               <tbody>
-                {facilitiesSearch.slice(0, 5).map((service) => (
+                {facilitiesAll.slice(0, 5).map((service) => (
                   <tr>
                     <a
                       onClick={() => {
