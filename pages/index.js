@@ -1,27 +1,39 @@
 import react, { useEffect, useState } from "react";
 import Head from "next/head";
-import Facilities from "../Components/Facilities";
 import Hospital from "../Components/Hospital";
+import Services from "../Components/Services";
 import Volunteers from "../Components/Volunteers";
 import axios from "axios";
+import LocationSearchTable from "../Components/LocationSearchTable";
+import FaciltySearchTable from "../Components/FaciltySearchTable";
+import InputSection from "../Components/InputSection";
 export default function Home() {
   const getData = async () => {
     const res = await axios.get("https://covid-19-delhi.herokuapp.com/cities");
     setLocationAll(res.data);
-    const res2 = await axios.get("https://covid-19-delhi.herokuapp.com/facilities/");
+    const res2 = await axios.get(
+      "https://covid-19-delhi.herokuapp.com/facilities/"
+    );
     setFacilitiesAll(res2.data);
   };
   const locationFilter = (e) => {
-    e.preventDefault()
-    const match = locationAll.filter(location => location.name.toLowerCase().indexOf(searchLocation.toLowerCase()) !== -1)
-    setLocationSearch(match)
-  }
+    e.preventDefault();
+    const match = locationAll.filter(
+      (location) =>
+        location.name.toLowerCase().indexOf(searchLocation.toLowerCase()) !== -1
+    );
+    setLocationSearch(match);
+  };
   const serviceFilter = (e) => {
-    e.preventDefault()
-    const match = facilitiesAll.filter(service => service.name.toLowerCase().indexOf(searchFacilities.toLowerCase()) !== -1)
-    setFacilitiesSearch(match)
+    e.preventDefault();
+    const match = facilitiesAll.filter(
+      (service) =>
+        service.name.toLowerCase().indexOf(searchFacilities.toLowerCase()) !==
+        -1
+    );
+    setFacilitiesSearch(match);
     console.log(match, facilitiesAll);
-  }
+  };
 
   useEffect(() => {
     getData();
@@ -34,8 +46,10 @@ export default function Home() {
   const [facilitiesAll, setFacilitiesAll] = useState([]);
   const [facilitiesSearch, setFacilitiesSearch] = useState([]);
 
-  const [locationFinal, setLocationFinal] = useState()
-  const [facilitiesFinal, setFacilitiesFinal] = useState()
+  const [locationFinal, setLocationFinal] = useState();
+  const [facilitiesFinal, setFacilitiesFinal] = useState();
+
+  const [screen, setScreen] = useState("hospitals");
 
   return (
     <div className="w-full flex jutisfy-center flex-col h-screen overflow-x-hidden">
@@ -47,184 +61,117 @@ export default function Home() {
           Covid-19 Resources
         </h1>
       </section>
-      <section className="grid grid-cols-2 mt-5 gap-5">
-        <section
-          id="location"
-          className="w-full mt-16 block rounded-xl shadow-lg px-12 bg-gray-100 py-4"
-        >
-          <input
-            className="w-full bg-gray-100 focus:outline-none text-center"
-            type="text"
-            value={searchLocation}
-            placeholder="Filter by location"
-            onChange={(e) => {setSearchLocation(e.target.value); locationFilter(e);}}
-          />
-        </section>
-        <section
-          id="facilities"
-          className="w-full mt-16 block rounded-xl shadow-lg px-12 bg-gray-100 py-4"
-        >
-          <input
-            className="w-full bg-gray-100 focus:outline-none text-center"
-            type="text"
-            value={searchFacilities}
-            placeholder="Filter by Facilities"
-            onChange={(e) => {setSearchFacilities(e.target.value); serviceFilter(e);}}
-          />
-        </section>
-      </section>
+      <InputSection
+        searchLocation={searchLocation}
+        searchFacilities={searchFacilities}
+        setSearchLocation={setSearchLocation}
+        setSearchFacilities={setSearchFacilities}
+        locationFilter={locationFilter}
+        serviceFilter={serviceFilter}
+      />
       <section className="grid grid-cols-2 gap-5">
-      {
-        searchLocation.length > 0 && (
-      <section className="container mx-auto px-4 sm:px-8 max-w-3xl">
-        <div>
-          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-              <table className="min-w-full leading-normal">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 bg-white text-center  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                    >
-                      City
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 bg-white text-center  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                    >
-                      State
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 bg-white text-center  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                    >
-                      Verified
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>{
-                  locationSearch.slice(0, 5).map(location => (
-                    <tr>
-                    <a onClick={() => {setSearchLocation(location.name); setLocationSearch([]); setLocationFinal(location)}}>
-                      <td className="px-5 text-csenter cursor-pointer py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{location.name}</p>
-                      </td>
-                    </a>
-                    <td className="px-5 text-center py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{location?.state?.name}</p>
-                    </td>
-                    <td className="px-5 text-center py-5 border-b border-gray-200 bg-white text-sm">
-                      { location.verified ? (<span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                        <span
-                          aria-hidden="true"
-                          className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                        ></span>
-                        <span className="relative">Verified</span>
-                      </span>) : (
-                        <span className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                        <span
-                          aria-hidden="true"
-                          className="absolute inset-0 bg-red-200 opacity-50 rounded-full"
-                        ></span>
-                        <span className="relative">Not Verified</span>
-                      </span>
-                      )}
-                    </td>
-                  </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-        ) || <div></div>}
-      {
-        searchFacilities.length > 0 && (
-      <section className="container mx-auto px-4 sm:px-8 max-w-3xl">
-        <div>
-          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-              <table className="min-w-full leading-normal">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 bg-white text-center  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                    >
-                      Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 bg-white text-center  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                    >
-                      Description
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 bg-white text-center  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                    >
-                      Deliverable
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>{
-                  facilitiesSearch.slice(0, 5).map(service => (
-                    <tr>
-                    <a onClick={() => {setSearchFacilities(service.name); setFacilitiesSearch([]); setFacilitiesFinal(service)}}>
-                      <td className="px-5 text-csenter cursor-pointer py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-no-wrap">{service.name}</p>
-                      </td>
-                    </a>
-                    <td className="px-5 text-center py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">{service.description}</p>
-                    </td>
-                    <td className="px-5 text-center py-5 border-b border-gray-200 bg-white text-sm">
-                      { service.deliver ? (<span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                        <span
-                          aria-hidden="true"
-                          className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                        ></span>
-                        <span className="relative">Deliverable</span>
-                      </span>) : (
-                        <span className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                        <span
-                          aria-hidden="true"
-                          className="absolute inset-0 bg-red-200 opacity-50 rounded-full"
-                        ></span>
-                        <span className="relative">Non Deliverable</span>
-                      </span>
-                      )}
-                    </td>
-                  </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
+        {(searchLocation.length > 0 && (
+          <LocationSearchTable
+            locationSearch={locationSearch}
+            setSearchLocation={setSearchLocation}
+            setLocationFinal={setLocationFinal}
+            setLocationSearch={setLocationSearch}
+          />
+        )) || <div></div>}
+        {searchFacilities.length > 0 && (
+          <FaciltySearchTable
+            facilitiesSearch={facilitiesSearch}
+            setSearchFacilities={setSearchFacilities}
+            setFacilitiesFinal={setFacilitiesFinal}
+            setFacilitiesSearch={setFacilitiesSearch}
+          />
         )}
-        </section>
-        <div className="w-full flex justify-center my-8">
-          <div>
-          <button onClick={() => { setSearchLocation(""); setSearchFacilities("") }} className="bg-gray-200 w-40 mx-2 hover:bg-gray-300 transition duration-200 text-base lg:text-lg text-black font-semibold rounded-lg px-8 py-4">
-                          Clear
+      </section>
+      <div className="w-full flex justify-center my-8">
+        <div>
+          <button
+            onClick={() => {
+              setSearchLocation("");
+              setSearchFacilities("");
+              setFacilitiesFinal();
+              setLocationFinal();
+            }}
+            className="bg-gray-200 w-40 mx-2 hover:bg-gray-300 transition duration-200 text-base lg:text-lg text-black font-semibold rounded-lg px-8 py-4"
+          >
+            Clear
           </button>
           <button className="bg-red-600 w-40 mx-2 hover:bg-red-700 transition duration-200 text-base lg:text-lg text-white font-semibold rounded-lg px-8 py-4">
-                          Search
+            Search
           </button>
+        </div>
+      </div>
+
+      <section className="text-gray-600 body-font">
+        <div className="container px-5 pt-24 mx-auto flex flex-wrap flex-col">
+          <div className="flex mx-auto flex-wrap mb-20">
+            <a onClick={() => setScreen("hospitals")} className={`sm:px-6 py-3 cursor-pointer w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center tracking-wider leading-none ${
+                screen === "hospitals"
+                  ? "bg-gray-100 border-indigo-500 text-indigo-500 rounded-t text-gray-900"
+                  : "border-gray-200 hover:text-gray-900"
+              }`}>
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeLineCap="round"
+                strokeLineJoin="round"
+                strokeWidth="2"
+                className="w-5 h-5 mr-3"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              Hospitals
+            </a>
+            <a onClick={() => setScreen("services")} className={`sm:px-6 py-3 cursor-pointer w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center tracking-wider leading-none ${
+                screen === "services"
+                  ? "bg-gray-100 border-indigo-500 text-indigo-500 rounded-t text-gray-900"
+                  : "border-gray-200 hover:text-gray-900"
+              }`}>
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeLineCap="round"
+                strokeLineJoin="round"
+                strokeWidth="2"
+                className="w-5 h-5 mr-3"
+                viewBox="0 0 24 24"
+              >
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+              Services
+            </a>
+            <a onClick={() => setScreen("volunteers")} className={`sm:px-6 py-3 cursor-pointer w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center tracking-wider leading-none ${
+                screen === "volunteers"
+                  ? "bg-gray-100 border-indigo-500 text-indigo-500 rounded-t text-gray-900"
+                  : "border-gray-200 hover:text-gray-900"
+              }`}>
+              <svg
+                fill="none"
+                stroke="currentColor"
+                strokeLineCap="round"
+                strokeLineJoin="round"
+                strokeWidth="2"
+                className="w-5 h-5 mr-3"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="12" cy="5" r="3"></circle>
+                <path d="M12 22V8M5 12H2a10 10 0 0020 0h-3"></path>
+              </svg>
+              Volunteers
+            </a>
           </div>
         </div>
-
-      <div className="grid  grid-cols-3 mt-5 gap-5 text-center">
-        <Facilities />
-
-        <Hospital />
-
-        <Volunteers />
-      </div>
+      </section>
+      <section className="w-full flex justify-center px-4 lg:px-16 py-4">
+        { screen === "hospitals" && <Hospital /> }
+        { screen === "services" && <Services /> }
+        { screen === "volunteers" && <Volunteers /> }
+      </section>
     </div>
   );
 }
