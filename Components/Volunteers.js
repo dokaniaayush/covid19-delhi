@@ -22,11 +22,12 @@ const Volunteers = ({ facility }) => {
     {
       loading && <SpinnerCircular color="#ff0000" enabled={loading} />
     }
-    { all.map && all?.map(data => (
-      <div className="px-4 rounded-lg lg:px-16">
-        {data.name}
-      </div>
-    )) || <h1 className="text-center text-red-500">No Volunteers Found</h1> }
+      { all.map && all?.map(data => (
+        <div className="px-4 rounded-lg lg:px-16">
+          {data.name}
+        </div>
+      )) || (!loading && <h1 className="text-center text-red-500" > Coming soon...</h1>)
+      }
     </>
   );
 };

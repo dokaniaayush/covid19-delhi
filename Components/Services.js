@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { SpinnerCircular } from "spinners-react";
 import TimeAgo from "react-timeago";
+import ReactTooltip from 'react-tooltip';
 
 const Services = ({ facility }) => {
   const [loading, setLoading] = useState(true);
@@ -29,23 +30,23 @@ const Services = ({ facility }) => {
       <table className="min-w-full leading-normal h-full">
         <thead className="p-16 border-2 ">
           <tr className="py-32">
-            <th
+            {/* <th
               scope="col"
               class="text-gray-600 font-semibold uppercase py-2 border-r border-gray-300 px-3"
             >
               Name
+            </th> */}
+            <th
+              scope="col"
+              class="text-gray-600 font-semibold uppercase py-2 border-r border-gray-300  px-3"
+            >
+              Mobile
             </th>
             <th
               scope="col"
               class="text-gray-600 font-semibold uppercase py-2 border-r border-gray-300  px-3"
             >
               Address
-            </th>
-            <th
-              scope="col"
-              class="text-gray-600 font-semibold uppercase py-2 border-r border-gray-300  px-3"
-            >
-              Mobile
             </th>
             <th
               scope="col"
@@ -67,34 +68,34 @@ const Services = ({ facility }) => {
             </th>
             <th
               scope="col"
-              class="text-gray-600 font-semibold uppercase py-2 border-r border-gray-300 px-3 "
+              class="text-gray-600 font-semibold max-w-xs uppercase py-2 border-r border-gray-300 px-3 "
             >
               Important note
             </th>
           </tr>
         </thead>
+        <ReactTooltip place="top" effect="solid"/>
         <tbody className="text-gray-600">
           {(all.length > 0 &&
             all.map(
-              (data) => (
-                console.log(data),
+              (data) =>
                 (
                   <tr className="border-2 border-t-gray-400">
-                    <td className="  text-center py-2 border-r border-gray-300 whitespace-nowrap  px-3">
+                    {/* <td className="  text-center py-2 border-r border-gray-300 whitespace-nowrap  px-3">
                       {data.contact_person}
-                    </td>
+                    </td> */}
 
-                    <td className="  text-center py-2 border-r border-gray-300 px-3">
+                    <td data-tip={data.contact_person || "Contact"} className="flex justify-around items-center text-center py-2 border-r border-gray-300 px-3">
+                    <a href={`tel:${data.mobile}`}>{data.mobile}</a>
+                    </td>
+                    <td className="  text-center max-w-sm py-2 border-r border-gray-300 px-3">
                       {data.address}
                     </td>
-                    <td className="  text-center py-2 border-r border-gray-300 px-3">
-                      {data.mobile}
-                    </td>
-                    <td className="  text-center py-2 border-r border-gray-300  px-3 ">
-                      <select className="flex item-center flex-col w-22">
-                        <option>Available Facilities</option>
+                    <td className="flex justify-center items-center text-center py-2 border-r border-gray-300 ">
+                      <select className="flex text-center item-center justify-center flex-col">
+                        <option className="pr-12">Available Facilities</option>
                         {data.facilities_list.map((facility) => (
-                          <option disabled>{facility}</option>
+                          <option className="w-xl text-center" disabled>{facility}</option>
                         ))}
                       </select>
                     </td>
@@ -114,15 +115,14 @@ const Services = ({ facility }) => {
                         {data.verified ? `Verified` : `Not Verified`}
                       </span>
                     </td>
-                    <td className="  text-center py-2 border-r border-gray-300 text-xs px-3">
+                    <td className="  text-center py-2 border-r max-w-sm border-gray-300 text-xs px-3">
                       {data.note}
                     </td>
                   </tr>
                 )
               )
-            )) || (
-            <h1 className="text-center text-red-500">No Services Found</h1>
-          )}
+            ) || ( !loading && <h1 className = "text-center text-red-500" > Coming soon...</h1>)
+          }
         </tbody>
       </table>
     </>

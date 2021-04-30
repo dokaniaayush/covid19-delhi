@@ -52,10 +52,10 @@ export default function Home() {
   const [locationFinal, setLocationFinal] = useState();
   const [facilitiesFinal, setFacilitiesFinal] = useState();
 
-  const [screen, setScreen] = useState("hospitals");
+  const [screen, setScreen] = useState("services");
 
   return (
-    <div className="w-full flex jutisfy-center flex-col h-screen overflow-x-hidden">
+    <div className="w-full mx-auto max-2- 8xl flex jutisfy-center flex-col h-screen overflow-x-hidden">
       <Head>
         <title>Covid-19 Resources</title>
       </Head>
