@@ -5,7 +5,7 @@ const InputSection = ({ searchLocation, searchFacilities, setSearchLocation, set
     
   
     return (
-        <section className="grid grid-cols-1 lg:grid-cols-2 mt-5 gap-5">
+        <section className="grid grid-cols-1 lg:grid-cols-2 -mt-12 gap-5">
         <section
           id="location"
           className="w-full mt-16 block rounded-xl shadow-lg px-4 lg:px-12 bg-gray-100 py-4"

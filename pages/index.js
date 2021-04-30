@@ -37,7 +37,7 @@ export default function Home() {
 
   useEffect(() => {
     getData();
-  });
+  },[]);
 
   const [searchLocation, setSearchLocation] = useState("");
   const [locationAll, setLocationAll] = useState([]);
@@ -59,7 +59,7 @@ export default function Home() {
       <Head>
         <title>Covid-19 Resources</title>
       </Head>
-      <section className="bg-black z-50 flex w-full justify-center fixed top-0 left-0 items-center">
+      <section className="bg-black z-50 flex w-full justify-center items-center">
         <h1 className="text-white text-2xl font-body py-4">
           Covid-19 Resources
         </h1>
@@ -187,7 +187,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="w-full flex justify-center px-4 lg:px-16 py-4">
+      <section className="  md:w-full flex justify-center px-4 lg:px-16 py-4">
         {screen === "hospitals" && <Hospital />}
         {screen === "services" && <Services />}
         {screen === "volunteers" && <Volunteers />}
