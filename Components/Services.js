@@ -85,14 +85,14 @@ const Services = ({ facility }) => {
                       {data.contact_person}
                     </td> */}
 
-                    <td data-tip={data.contact_person || "Contact"} className="flex justify-around items-center text-center py-2 border-r border-gray-300 px-3">
+                    <td data-tip={data.contact_person || "Contact"} className=" justify-around items-center text-center py-2 border-r border-gray-300 px-3">
                     <a href={`tel:${data.mobile}`}>{data.mobile}</a>
                     </td>
                     <td className="  text-center max-w-sm py-2 border-r border-gray-300 px-3">
                       {data.address}
                     </td>
-                    <td className="flex justify-center items-center text-center py-2 border-r border-gray-300 ">
-                      <select className="flex text-center item-center justify-center flex-col">
+                    <td className=" justify-center items-center text-center py-2 border-r border-gray-300 ">
+                      <select className=" text-center item-center justify-center flex-col">
                         <option className="pr-12">Available Facilities</option>
                         {data.facilities_list.map((facility) => (
                           <option className="w-xl text-center" disabled>{facility}</option>
