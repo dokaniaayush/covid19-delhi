@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { SpinnerCircular } from "spinners-react";
-import TimeAgo from "react-timeago";
+import { SpinnerCircular } from "spinners-react"; 
+import TimeAgo from "react-timeago"; 
 import ReactTooltip from 'react-tooltip';
 
 const Services = ({ facility }) => {
@@ -91,9 +91,9 @@ const Services = ({ facility }) => {
                     <td className="  text-center max-w-sm py-2 border-r border-gray-300 px-3">
                       {data.address}
                     </td>
-                    <td className="  text-center py-2 border-r border-gray-300 ">
-                      <select className=" text-center  flex-col">
-                        <option className="pr-12">Available Facilities</option>
+                    <td className="  text-center py-2 border-r border-gray-300" >
+                      <select className=" text-center w-3/4 " >
+                        <option className="pr-12" >Available Facilities</option>
                         {data.facilities_list.map((facility) => (
                           <option className="w-xl text-center" disabled>{facility}</option>
                         ))}
